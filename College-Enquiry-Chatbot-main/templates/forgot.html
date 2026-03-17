@@ -1,118 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forgot Password</title>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='images/icon.png') }}"
-    />
+<title>Forgot Password</title>
 
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='assets/bootstrap/css/bootstrap.min.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Catamaran"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='assets/css/Login-Form-Dark.css') }}"
-    />
+<link rel="icon" href="{{ url_for('static', filename='images/icon.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/bootstrap/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/Login-Form-Dark.css') }}">
 
-    <style>
-      body {
-        padding-top: 80px;
-      }
-      .login-dark {
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+<style>
+body {
+    padding-top: 80px;
+    background: linear-gradient(to right, #141e30, #243b55);
+}
 
-      form {
-        width: 350px;
-        background: #1e2833;
-        padding: 30px;
-        border-radius: 8px;
-        color: white;
-      }
-    </style>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-  </head>
+.login-dark {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-  <body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
-      <div class="container">
+form {
+    width: 350px;
+    background: #1e2833;
+    padding: 30px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.4);
+}
+
+h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    background: #2c3e50;
+    border: none;
+    color: white;
+}
+
+.form-control:focus {
+    background: #34495e;
+    color: white;
+}
+
+.btn {
+    background: #2980ef;
+    border: none;
+}
+
+.btn:hover {
+    background: #1f6fd1;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
+    <div class="container">
         <a class="navbar-brand" href="#">CRCE Bot</a>
 
         <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Log In</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
-            </li>
-          </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Log In</a></li>
+                <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+            </ul>
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    <section class="login-dark">
-      <form action="/forgot" method="POST">
-        <h4 style="text-align: center">FORGOT PASSWORD</h4>
-        <br />
+<section class="login-dark">
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            type="text"
-            name="name"
-            placeholder="Name"
-            required
-          />
-        </div>
+<form action="/forgot_password" method="POST">
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            type="email"
-            name="uemail"
-            placeholder="Email"
-            required
-          />
-        </div>
+    <h4>FORGOT PASSWORD</h4>
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            type="password"
-            name="upassword"
-            placeholder="New Password"
-            pattern=".{8,}"
-            required
-          />
-        </div>
+    <div class="form-group">
+        <input class="form-control" type="email" name="email" placeholder="Enter your Email" required>
+    </div>
 
-        <br />
+    <br>
 
-        {{ recaptcha }}
+    <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit">
+            Recover Password
+        </button>
+    </div>
 
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" type="submit">
-            Submit
-          </button>
-        </div>
-      </form>
-    </section>
+    <br>
 
-    <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
-  </body>
+    <p style="text-align:center;">
+        Remembered? <a href="/" style="color:#4da3ff;">Login</a>
+    </p>
+
+</form>
+
+</section>
+
+<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
+
+</body>
 </html>
