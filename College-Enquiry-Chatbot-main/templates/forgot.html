@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot Password</title>
+
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='images/icon.png') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/bootstrap/css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Catamaran"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/Login-Form-Dark.css') }}"
+    />
+
+    <style>
+      body {
+        padding-top: 80px;
+      }
+      .login-dark {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      form {
+        width: 350px;
+        background: #1e2833;
+        padding: 30px;
+        border-radius: 8px;
+        color: white;
+      }
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">CRCE Bot</a>
+
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Log In</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="login-dark">
+      <form action="/forgot" method="POST">
+        <h4 style="text-align: center">FORGOT PASSWORD</h4>
+        <br />
+
+        <div class="form-group">
+          <input
+            class="form-control"
+            type="text"
+            name="name"
+            placeholder="Name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            class="form-control"
+            type="email"
+            name="uemail"
+            placeholder="Email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            class="form-control"
+            type="password"
+            name="upassword"
+            placeholder="New Password"
+            pattern=".{8,}"
+            required
+          />
+        </div>
+
+        <br />
+
+        {{ recaptcha }}
+
+        <div class="form-group">
+          <button class="btn btn-primary btn-block" type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HS Bot</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #ffffff;
+        }
+
+        .header {
+            background: #1e293b;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .chat-container {
+            padding: 15px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            margin: 10px 0;
+            align-items: flex-end;
+        }
+
+        .bot-img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .user-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+
+        .text {
+            max-width: 70%;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .bot .text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .user {
+            justify-content: flex-end;
+        }
+
+        .user .text {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+        }
+
+        .input-area {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            padding: 10px;
+            background: #f1f5f9;
+            box-sizing: border-box;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .input-area button {
+            margin-left: 8px;
+            padding: 10px 14px;
+            border: none;
+            background: #8b5cf6;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .input-area button:hover {
+            background: #7c3aed;
+        }
+
+        .typing {
+            font-style: italic;
+            color: gray;
+            margin-left: 45px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">🤖 HS Bot</div>
+
+<div class="chat-container" id="chat-box">
+
+    <!-- FIRST BOT MESSAGE -->
+    <div class="message bot">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" class="bot-img">
+        <div class="text">
+            Hi 👋 Welcome to Indo Global College Bot!<br><br>
+
+            You can ask me about:<br>
+            👉 College Information<br>
+            👉 Engineering Courses<br>
+            👉 Fee Structure<br>
+            👉 Principal / Dean<br>
+            👉 Hostel & Transport<br>
+            👉 Placements<br><br>
+
+            Try asking:<br>
+            - fees for btech<br>
+            - who is principal<br>
+            - courses available
+        </div>
+    </div>
+
+</div>
+
+<div class="input-area">
+    <input type="text" id="msg" placeholder="Enter your message..." onkeypress="handleKey(event)">
+    <button onclick="startVoice()">🎤</button>
+    <button onclick="send()">Send</button>
+</div>
+
+<script>
+function send() {
+    let msg = document.getElementById("msg").value;
+
+    if(msg.trim() === "") return;
+
+    let chatBox = document.getElementById("chat-box");
+
+    let userDiv = document.createElement("div");
+    userDiv.className = "message user";
+    userDiv.innerHTML = `
+        <div class="text">${msg}</div>
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="user-img">
+    `;
+    chatBox.appendChild(userDiv);
+
+    document.getElementById("msg").value = "";
+
+    let typingDiv = document.createElement("div");
+    typingDiv.className = "typing";
+    typingDiv.id = "typing";
+    typingDiv.innerText = "HS Bot is typing...";
+    chatBox.appendChild(typingDiv);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    fetch("/get?msg=" + encodeURIComponent(msg))
+    .then(res => res.text())
+    .then(data => {
+
+        document.getElementById("typing").remove();
+
+        let botDiv = document.createElement("div");
+        botDiv.className = "message bot";
+        botDiv.innerHTML = `
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" class="bot-img">
+            <div class="text">${data}</div>
+        `;
+        chatBox.appendChild(botDiv);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+}
+
+// ENTER KEY SUPPORT
+function handleKey(event) {
+    if(event.key === "Enter") {
+        send();
+    }
+}
+
+// VOICE INPUT
+function startVoice() {
+    let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        let speech = event.results[0][0].transcript;
+        document.getElementById("msg").value = speech;
+    };
+
+    recognition.onerror = function() {
+        alert("Voice not supported or permission denied");
+    };
+}
+</script>
+
+</body>
+</html>
